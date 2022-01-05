@@ -100,7 +100,7 @@ void onEvent (ev_t ev) {
     case EV_JOINED:
       Serial.println(F("EV_JOINED"));
 
-      //after join is completed, ttn server updates teh frequency table for the end device
+      //after join is completed, ttn server updates the frequency table for the end device
       //so we have to disable the available frequencies again.
 
       LMIC_disableChannel(1);
@@ -138,6 +138,8 @@ void onEvent (ev_t ev) {
       // Schedule next transmission
       os_setTimedCallback(&sendjob, os_getTime() + sec2osticks(TX_INTERVAL), do_send);
 
+      //after the complete transmission we might get a new frequency table for the end device
+      //so we have to disable the available frequencies again.
       LMIC_disableChannel(1);
       LMIC_disableChannel(2);
       LMIC_disableChannel(3);
